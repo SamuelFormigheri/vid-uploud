@@ -1,0 +1,40 @@
+.button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    border-radius: 8px;
+    border: 4px dashed #646cff;
+    padding: 3rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.inputHidden {
+    display: none;
+    visibility: hidden;
+}
+
+.button:hover {
+    border: 4px solid #646cff;
+    filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.button>svg {
+    transition: 300ms ease;
+}
+
+.button:hover>svg {
+    transform: scale(1.25);
+}
+
+.button:focus,
+.button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}

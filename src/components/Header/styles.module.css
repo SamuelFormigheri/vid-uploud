@@ -1,0 +1,26 @@
+.header {
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+    gap: 1rem;
+    transition: 300ms;
+    filter: drop-shadow(0 0 0.5rem #646cffaa);
+}
+
+.highlight {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background: linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(97, 218, 251, 1) 95%);
+    font-size: 2rem;
+    color: #242424;
+}
+
+.title:hover {
+    filter: drop-shadow(0 0 5rem #61dafbaa);
+}
