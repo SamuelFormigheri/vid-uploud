@@ -1,12 +1,12 @@
 import { Header } from './components/Header'
 import { FileUpload } from './components/FileUpload'
 import { useClock } from './hooks/useClock'
-import { IWorkerData } from './workers/processFile'
 import { Canvas } from './utils/canvas'
 import { downloadBlobAsFile } from './utils/blob'
 import { createSignal } from 'solid-js'
 import { firstLetterUppercase } from './utils/string'
 import { RadioButton } from './components/RadioButton'
+import { IWorkerData } from './interfaces/workerData'
 
 function App() {
   let fileUploadRef: HTMLInputElement | undefined = undefined
@@ -58,14 +58,14 @@ function App() {
         clearInput()
         break
       case "download":
-        downloadBlobAsFile(ev.data.chunks ?? [], ev.data.fileName ?? "")
+        downloadBlobAsFile(ev.data.chunks, ev.data.fileName)
         break
       case "processing":
         if (renderFrame === undefined) {
           getCanvas()
           return
         }
-        else if (ev.data.frame) {
+        else {
           renderFrame(ev.data.frame)
         }
         break

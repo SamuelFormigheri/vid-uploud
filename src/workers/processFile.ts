@@ -3,14 +3,7 @@ import { VideoProcessor } from "../utils/videoProcessor"
 
 // @ts-ignore
 import WebMWriter from '../libs/webm-writer2.js'
-
-export interface IWorkerData {
-    status: "done" | "processing" | "unsupported" | "download";
-    frame?: VideoFrame;
-    chunks?: Uint8Array[];
-    fileName?: string;
-}
-
+import { IWorkerData } from "../interfaces/workerData.js"
 
 function returnConfigs(resolution: "144p" | "480p" | "720p") {
     let constraints
