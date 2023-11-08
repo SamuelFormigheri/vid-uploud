@@ -6,8 +6,11 @@ import { Canvas } from './utils/canvas'
 import { downloadBlobAsFile } from './utils/blob'
 import { createSignal } from 'solid-js'
 import { firstLetterUppercase } from './utils/string'
+import { RadioButton } from './components/RadioButton'
 
 function App() {
+  let fileUploadRef: HTMLInputElement | undefined = undefined
+  let radioRef: HTMLDivElement | undefined = undefined
   let canvasRef: HTMLCanvasElement | undefined = undefined
   let renderFrame: ((frame: VideoFrame) => void) | undefined = undefined
   const [status, setStatus] = createSignal<IWorkerData["status"]>("processing")
@@ -17,6 +20,13 @@ function App() {
     if (!canvas)
       return
     renderFrame = Canvas.renderFrame(canvas)
+  }
+
+  function clearInput() {
+    if (!fileUploadRef)
+      return
+
+    fileUploadRef.value = ""
   }
 
   const {
@@ -41,9 +51,11 @@ function App() {
     switch (ev.data.status) {
       case "unsupported":
         alert("Your browser don't support VideoEncoder. Please update it.")
+        clearInput()
         break
       case "done":
         stop()
+        clearInput()
         break
       case "download":
         downloadBlobAsFile(ev.data.chunks ?? [], ev.data.fileName ?? "")
@@ -67,16 +79,39 @@ function App() {
       <Header />
       <main>
         <FileUpload
+          ref={fileUploadRef}
           onchange={(ev) => {
             if (!ev.target.files || !canvasRef)
               return
 
             start()
 
+            const inputChecked = radioRef?.querySelector("input[type='radio']:checked") as HTMLInputElement
+
             worker.postMessage({
-              file: ev.target.files[0]
+              file: ev.target.files[0],
+              resolution: inputChecked.value ?? "144p"
             })
           }}
+        />
+        <RadioButton
+          ref={radioRef}
+          options={[
+            {
+              value: "144p",
+              label: "144p",
+              checked: true
+            },
+            {
+              value: "480p",
+              label: "480p"
+            },
+            {
+              value: "720p",
+              label: "720p"
+            }
+          ]}
+          title="Resolution: "
         />
         <canvas ref={canvasRef}></canvas>
         {timer() > 0 && (

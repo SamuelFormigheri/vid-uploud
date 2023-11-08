@@ -11,52 +11,72 @@ export interface IWorkerData {
     fileName?: string;
 }
 
-const qvgaConstraints = {
-    width: 320,
-    height: 240
-}
-const vgaConstraints = {
-    width: 640,
-    height: 480
-}
-const hdConstraints = {
-    width: 1280,
-    height: 720
-}
 
-const encoderConfig = {
-    ...qvgaConstraints,
-    bitrate: 10e6,
-    // WebM
-    codec: 'vp09.00.10.08',
-    pt: 4,
-    hardwareAcceleration: 'prefer-software',
+function returnConfigs(resolution: "144p" | "480p" | "720p") {
+    let constraints
 
-    // MP4
-    // codec: 'avc1.42002A',
-    // pt: 1,
-    // hardwareAcceleration: 'prefer-hardware',
-    // avc: { format: 'annexb' }
-} as VideoEncoderConfig
+    switch (resolution) {
+        case "480p":
+            constraints = {
+                width: 640,
+                height: 480
+            }
+            break
+        case "720p":
+            constraints = {
+                width: 1280,
+                height: 720
+            }
+            break
+        case "144p":
+        default:
+            constraints = {
+                width: 320,
+                height: 240
+            }
+            break
+    }
 
-const webmWriterConfig = {
-    ...qvgaConstraints,
-    codec: 'VP9',
-    width: encoderConfig.width,
-    height: encoderConfig.height,
-    bitrate: encoderConfig.bitrate,
+    const encoderConfig = {
+        ...constraints,
+        bitrate: 10e6,
+        // WebM
+        codec: 'vp09.00.10.08',
+        pt: 4,
+        hardwareAcceleration: 'prefer-software',
+
+        // MP4
+        // codec: 'avc1.42002A',
+        // pt: 1,
+        // hardwareAcceleration: 'prefer-hardware',
+        // avc: { format: 'annexb' }
+    } as VideoEncoderConfig
+
+    const webmWriterConfig = {
+        ...constraints,
+        codec: 'VP9',
+        width: encoderConfig.width,
+        height: encoderConfig.height,
+        bitrate: encoderConfig.bitrate,
+    }
+
+    const videoProcessor = new VideoProcessor({
+        mp4Demuxer: new MP4Demuxer(),
+        webMWriter: new WebMWriter(webmWriterConfig)
+    })
+
+    return {
+        videoProcessor,
+        encoderConfig
+    }
 }
-
-const videoProcessor = new VideoProcessor({
-    mp4Demuxer: new MP4Demuxer(),
-    webMWriter: new WebMWriter(webmWriterConfig)
-})
 
 self.onmessage = async ({
     data
 }: {
     data: {
-        file: File
+        file: File;
+        resolution: "144p" | "480p" | "720p";
     }
 }) => {
     if (!('VideoEncoder' in self as any)) {
@@ -65,6 +85,11 @@ self.onmessage = async ({
         } as IWorkerData)
         return
     }
+
+    const {
+        encoderConfig,
+        videoProcessor
+    } = returnConfigs(data.resolution)
 
     await videoProcessor.start({
         file: data.file,
