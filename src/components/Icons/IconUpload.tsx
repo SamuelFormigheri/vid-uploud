@@ -12,7 +12,7 @@ function IconUpload(props: JSX.SvgSVGAttributes<SVGSVGElement>) {
             stroke-line-join="round"
             stroke-width="2"
             class="feather feather-upload"
-            view-box="0 0 24 24"
+            viewBox="0 0 24 24"
             {...props}
         >
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>

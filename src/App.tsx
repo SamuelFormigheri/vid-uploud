@@ -4,16 +4,23 @@ import { useClock } from './hooks/useClock'
 import { Canvas } from './utils/canvas'
 import { downloadBlobAsFile } from './utils/blob'
 import { createSignal } from 'solid-js'
-import { firstLetterUppercase } from './utils/string'
+import { firstLetterUppercase, formatSize } from './utils/string'
 import { RadioButton } from './components/RadioButton'
 import { IWorkerData } from './interfaces/workerData'
+import IconPlay from './components/Icons/IconPlay'
+
+import styles from './app.module.css'
 
 function App() {
+  let videoContainerRef: HTMLDivElement | undefined = undefined
   let fileUploadRef: HTMLInputElement | undefined = undefined
   let radioRef: HTMLDivElement | undefined = undefined
   let canvasRef: HTMLCanvasElement | undefined = undefined
+
   let renderFrame: ((frame: VideoFrame) => void) | undefined = undefined
+
   const [status, setStatus] = createSignal<IWorkerData["status"]>("processing")
+  const [processingFile, setProcessingFile] = createSignal<File | undefined>(undefined)
 
   function getCanvas() {
     const canvas = canvasRef?.transferControlToOffscreen()
@@ -86,12 +93,20 @@ function App() {
 
             start()
 
+            const file = ev.target.files[0]
+            setProcessingFile(file)
             const inputChecked = radioRef?.querySelector("input[type='radio']:checked") as HTMLInputElement
 
             worker.postMessage({
-              file: ev.target.files[0],
+              file,
               resolution: inputChecked.value ?? "144p"
             })
+
+            setTimeout(() => videoContainerRef?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            }), 200)
+
           }}
         />
         <RadioButton
@@ -113,10 +128,26 @@ function App() {
           ]}
           title="Resolution: "
         />
-        <canvas ref={canvasRef}></canvas>
-        {timer() > 0 && (
-          <p>{firstLetterUppercase(status())} {timer()}</p>
-        )}
+
+        <div
+          ref={videoContainerRef}
+          class={styles.videoContainer}
+          style={{ opacity: processingFile() ? 1 : 0 }}
+        >
+          {processingFile() && (
+            <div class={styles.headerVideoContainer}>
+              <IconPlay width="64" height="64" />
+              <div class={styles.detailsHeaderVideoContainer}>
+                <h3>{processingFile()?.name}</h3>
+                <h5>{formatSize(processingFile()?.size)}</h5>
+              </div>
+            </div>
+          )}
+          <canvas ref={canvasRef}></canvas>
+          {timer() > 0 && (
+            <p>{firstLetterUppercase(status())} {timer()}s</p>
+          )}
+        </div>
       </main>
     </>
   )

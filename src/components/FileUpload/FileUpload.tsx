@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 export function FileUpload(props: JSX.InputHTMLAttributes<HTMLInputElement>) {
     return <label html-for="avatar" class={styles.button}>
-        <IconUpload />
+        <IconUpload width="48" height="48" />
         <input
             class={styles.inputHidden}
             type="file"
