@@ -39,7 +39,6 @@ function returnConfigs(resolution: "240p" | "360p" | "480p" | "720p") {
     const encoderConfig = {
         ...constraints,
         bitrate: 10e6,
-        framerate: 30,
         // WebM
         codec: 'vp09.00.10.08',
         pt: 4,

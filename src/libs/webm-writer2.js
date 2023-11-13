@@ -254,7 +254,7 @@ class AutoCloseWritableStream {
       setTimeout(() => {
         if (!this.#isClosed) this.#closeStream()
         this.#isClosed = true
-      }, 1000);
+      }, 500);
     }, this.#idleTimeout);
   }
 }
@@ -691,7 +691,7 @@ function writeEBML(buffer, bufferFileOffset, ebml) {
  */
 let WebMWriter = function (ArrayBufferDataStream, BlobBuffer) {
   return function (options) {
-    let MAX_CLUSTER_DURATION_MSEC = 5000, DEFAULT_TRACK_NUMBER = 1,
+    let MAX_CLUSTER_DURATION_MSEC = 1000, DEFAULT_TRACK_NUMBER = 1,
       writtenHeader = false, videoWidth = 0, videoHeight = 0,
       firstTimestampEver = true, earliestTimestamp = 0,
 

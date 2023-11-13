@@ -148,9 +148,9 @@ function App() {
             </div>
           )}
           <canvas ref={canvasRef}></canvas>
-          {timer() > 0 && (
+          {timer() > 0 ? (
             <p>{firstLetterUppercase(status())} {timer()}s</p>
-          )}
+          ) : <p>&nbsp;</p>}
         </div>
       </main>
     </>
