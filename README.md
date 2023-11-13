@@ -43,7 +43,11 @@ This project was developed with the following technologies:
 
     $ then run 'npm run dev'
  
+## Next steps
 
+- [ ] - Webmwriter-2.js add types to the functions that I call (addFrame, complete)
+- [ ] - Fix error when seeking the video in a step other than the start;
+- [ ] - Encoding and decoding of audio track
 
 ## 👥 Participants
 
