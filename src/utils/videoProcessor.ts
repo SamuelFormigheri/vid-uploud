@@ -122,9 +122,6 @@ export class VideoProcessor {
         const writable = new WritableStream({
             write: (frame: VideoFrame) => {
                 this.webMWriter.addFrame(frame)
-            },
-            close: () => {
-                this.webMWriter.complete();
             }
         })
         return {
@@ -133,19 +130,12 @@ export class VideoProcessor {
         }
     }
 
-    private upload(onDownload: (chunks: Uint8Array[]) => void) {
-        const chunks: Uint8Array[] = []
-        let byteCount = 0
-
-
+    private upload(onDownload: (blob: Blob) => void) {
+        const webMWriter = this.webMWriter
         return new WritableStream({
-            async write({ data }: { data: Uint8Array }) {
-                chunks.push(data)
-                byteCount += data.byteLength
-            },
             async close() {
-                if (!chunks.length) return;
-                onDownload(chunks)
+                const blob = await webMWriter.complete()
+                onDownload(blob)
             }
         })
     }
@@ -161,7 +151,7 @@ export class VideoProcessor {
         renderFrame: (frame: VideoFrame) => void;
         encoderConfig: VideoEncoderConfig;
         onCallback: () => void;
-        onDownload: (fileName: string, chunks: Uint8Array[]) => void;
+        onDownload: (fileName: string, blob: Blob) => void;
     }) {
         const stream = file.stream()
         const fileName = file.name.split('/').pop()?.replace('.mp4', '')
@@ -170,7 +160,7 @@ export class VideoProcessor {
             .pipeThrough(this.encode(encoderConfig))
             .pipeThrough(this.renderDecodedFramesAndGetEncodedChunks(renderFrame))
             .pipeThrough(this.transformIntoWebM())
-            .pipeTo(this.upload((chunks) => onDownload(fileName ?? "", chunks)))
+            .pipeTo(this.upload((blob) => onDownload(fileName ?? "", blob)))
 
         onCallback()
     }

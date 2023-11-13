@@ -65,7 +65,7 @@ function App() {
         clearInput()
         break
       case "download":
-        downloadBlobAsFile(ev.data.chunks, ev.data.fileName)
+        downloadBlobAsFile(ev.data.blob, ev.data.fileName)
         break
       case "processing":
         if (renderFrame === undefined) {

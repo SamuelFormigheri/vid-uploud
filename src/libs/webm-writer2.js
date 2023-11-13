@@ -232,6 +232,7 @@ class AutoCloseWritableStream {
   #idleTimeout = 2000
   #closeStream
   #completeFn
+  #isClosed = false
 
   constructor({
     closeStream,
@@ -250,8 +251,10 @@ class AutoCloseWritableStream {
     // Set a new timeout to close the stream after the idleTimeout
     this.#timeoutId = setTimeout(async () => {
       await this.#completeFn()
-      setTimeout(() => this.#closeStream(), 1000);
-
+      setTimeout(() => {
+        if (!this.#isClosed) this.#closeStream()
+        this.#isClosed = true
+      }, 1000);
     }, this.#idleTimeout);
   }
 }
@@ -368,7 +371,7 @@ class AutoCloseWritableStream {
 
         // After previous writes complete, perform our write
         writePromise = writePromise.then(async function () {
-          _writable.write({ position: newEntry.offset, data: newEntry.data })
+          // _writable.write({ position: newEntry.offset, data: newEntry.data })
           autoCloseStream.resetTimeout()
 
           if (fd) {

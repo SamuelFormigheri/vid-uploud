@@ -101,10 +101,10 @@ self.onmessage = async ({
             } as IWorkerData)
             frame.close()
         },
-        onDownload: (fileName, chunks) => {
+        onDownload: (fileName, blob) => {
             self.postMessage({
                 status: "download",
-                chunks,
+                blob,
                 fileName
             } as IWorkerData)
         },

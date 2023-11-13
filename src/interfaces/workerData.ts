@@ -13,7 +13,7 @@ type UnsupportedWorkerData = {
 
 type DownloadWorkerData = {
     status: "download";
-    chunks: Uint8Array[];
+    blob: Blob;
     fileName: string;
 }
 

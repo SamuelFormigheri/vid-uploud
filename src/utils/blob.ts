@@ -1,5 +1,4 @@
-export function downloadBlobAsFile(buffers: BlobPart[], filename: string) {
-    const blob = new Blob(buffers, { type: 'video/webm' })
+export function downloadBlobAsFile(blob: Blob, filename: string) {
     const blobUrl = URL.createObjectURL(blob)
 
     const a = document.createElement('a')
