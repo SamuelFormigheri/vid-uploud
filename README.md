@@ -1,28 +1,50 @@
-## Usage
+<h1 align="center">
+   Pre processing videos on browser
+</h1>
+ 
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
+<p align="center">
+  <a href="#-projeto">Project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-tecnologias">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-usage">Usage</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-participants">Participants</a>
+</p>
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+<br>
 
-## Available Scripts
+## 💻 Project
 
-In the project directory, you can run:
+🔊 These project was made with Solid. The purpose of the application is to pre process videos on the browser, using web workers to don't block the main thread of the browser and web streams to process by demand... It was developed during @ErickWendel Semana JS Expert... 💚
 
-### `npm run dev`
+<p align="center">
+    <img
+        alt="Application"
+        title="Application"
+        src=".github/app.mp4"
+    />
+</p>
 
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+## 🚀 Technologies
 
-### `npm run build`
+This project was developed with the following technologies:
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+- [Solid](https://www.solidjs.com/)
+- [MP4Box](https://github.com/gpac/mp4box.js/)
+- [WebM Writter](https://github.com/thenickdude/webm-writer-js)
+- [Typescript](https://www.typescriptlang.org/)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## 💻 Usage
 
-## Deployment
+ ### App
 
-Learn more about deploying your application with the [documentations](https://vitejs.dev/guide/static-deploy.html)
+    $ it was developed using node v18.15
+
+    $ if you want to test, just clone the project and run 'npm install'
+
+    $ then run 'npm run dev'
+ 
+
+
+## 👥 Participants
+
+[Samuel Formigheri](https://github.com/SamuelFormigheri)
