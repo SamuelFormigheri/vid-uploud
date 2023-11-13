@@ -17,10 +17,11 @@
 🔊 These project was made with Solid. The purpose of the application is to pre process videos on the browser, using web workers to don't block the main thread of the browser and web streams to process by demand... It was developed during @ErickWendel Semana JS Expert... 💚
 
 <p align="center">
-    <video width="1280" height="720" controls>
-        <source src="./github/app.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <img
+        alt="Application"
+        title="Application"
+        src=".github/app.gif"
+    />
 </p>
 
 ## 🚀 Technologies
