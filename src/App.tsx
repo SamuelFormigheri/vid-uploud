@@ -99,7 +99,7 @@ function App() {
 
             worker.postMessage({
               file,
-              resolution: inputChecked.value ?? "144p"
+              resolution: inputChecked.value ?? "240p"
             })
 
             setTimeout(() => videoContainerRef?.scrollIntoView({
@@ -113,9 +113,13 @@ function App() {
           ref={radioRef}
           options={[
             {
-              value: "144p",
-              label: "144p",
+              value: "240p",
+              label: "240p",
               checked: true
+            },
+            {
+              value: "360p",
+              label: "360p"
             },
             {
               value: "480p",

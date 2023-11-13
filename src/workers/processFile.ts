@@ -5,7 +5,7 @@ import { VideoProcessor } from "../utils/videoProcessor"
 import WebMWriter from '../libs/webm-writer2.js'
 import { IWorkerData } from "../interfaces/workerData.js"
 
-function returnConfigs(resolution: "144p" | "480p" | "720p") {
+function returnConfigs(resolution: "240p" | "360p" | "480p" | "720p") {
     let constraints
 
     switch (resolution) {
@@ -21,7 +21,13 @@ function returnConfigs(resolution: "144p" | "480p" | "720p") {
                 height: 720
             }
             break
-        case "144p":
+        case "360p":
+            constraints = {
+                width: 640,
+                height: 360
+            }
+            break
+        case "240p":
         default:
             constraints = {
                 width: 320,
@@ -33,6 +39,7 @@ function returnConfigs(resolution: "144p" | "480p" | "720p") {
     const encoderConfig = {
         ...constraints,
         bitrate: 10e6,
+        framerate: 30,
         // WebM
         codec: 'vp09.00.10.08',
         pt: 4,
@@ -69,7 +76,7 @@ self.onmessage = async ({
 }: {
     data: {
         file: File;
-        resolution: "144p" | "480p" | "720p";
+        resolution: "240p" | "360p" | "480p" | "720p";
     }
 }) => {
     if (!('VideoEncoder' in self as any)) {

@@ -43,14 +43,14 @@ export class VideoProcessor {
         })
     }
 
-    private encode144p(encoderConfig: VideoEncoderConfig) {
+    private encode(encoderConfig: VideoEncoderConfig) {
         let _encoder: VideoEncoder;
         const readable = new ReadableStream({
             start: async (controller) => {
                 const { supported } = await VideoEncoder.isConfigSupported(encoderConfig)
                 if (!supported) {
-                    console.error('encode144p VideoEncoder config not supported!', encoderConfig)
-                    controller.error('encode144p VideoEncoder config not supported!')
+                    console.error('encode VideoEncoder config not supported!', encoderConfig)
+                    controller.error('encode VideoEncoder config not supported!')
                     return
                 }
 
@@ -122,6 +122,9 @@ export class VideoProcessor {
         const writable = new WritableStream({
             write: (frame: VideoFrame) => {
                 this.webMWriter.addFrame(frame)
+            },
+            close: () => {
+                this.webMWriter.complete();
             }
         })
         return {
@@ -164,7 +167,7 @@ export class VideoProcessor {
         const fileName = file.name.split('/').pop()?.replace('.mp4', '')
 
         await this.mp4Decoder(stream)
-            .pipeThrough(this.encode144p(encoderConfig))
+            .pipeThrough(this.encode(encoderConfig))
             .pipeThrough(this.renderDecodedFramesAndGetEncodedChunks(renderFrame))
             .pipeThrough(this.transformIntoWebM())
             .pipeTo(this.upload((chunks) => onDownload(fileName ?? "", chunks)))
