@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 100%;
+    overflow: auto;
     gap: 8px;
     background-color: #1a1a1a;
     padding: 24px;

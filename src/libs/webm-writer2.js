@@ -548,18 +548,6 @@ function extend(base, top) {
   return target;
 }
 
-/**
- * @param {String} string
- * @returns {number}
- */
-function byteStringToUint32LE(string) {
-  let a = string.charCodeAt(0), b = string.charCodeAt(1),
-    c = string.charCodeAt(2), d = string.charCodeAt(3);
-
-  return (a | (b << 8) | (c << 16) | (d << 24)) >>> 0;
-}
-
-
 // Just a little utility so we can tag values as floats for the EBML encoder's
 // benefit
 function EBMLFloat32(value) {

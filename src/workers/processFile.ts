@@ -3,7 +3,7 @@ import { VideoProcessor } from "../utils/videoProcessor"
 
 // @ts-ignore
 import WebMWriter from '../libs/webm-writer2.js'
-import { IWorkerData } from "../interfaces/workerData.js"
+import { IWorkerData } from "../interfaces/workerData"
 
 function returnConfigs(resolution: "240p" | "360p" | "480p" | "720p") {
     let constraints

@@ -67,7 +67,7 @@ export class VideoProcessor {
                         controller.enqueue(frame)
                     },
                     error: (err) => {
-                        console.error('VideoEncoder 144p', err)
+                        console.error('VideoEncoder', err)
                         controller.error(err)
                     }
                 })
@@ -79,9 +79,12 @@ export class VideoProcessor {
         })
 
         const writable = new WritableStream({
-            async write(frame) {
+            async write(frame: VideoFrame) {
                 _encoder.encode(frame)
                 frame.close()
+            },
+            close: () => {
+                _encoder.flush()
             }
         })
 
@@ -120,8 +123,8 @@ export class VideoProcessor {
 
     private transformIntoWebM() {
         const writable = new WritableStream({
-            write: (frame: VideoFrame) => {
-                this.webMWriter.addFrame(frame)
+            write: (chunk: EncodedVideoChunk) => {
+                this.webMWriter.addFrame(chunk)
             }
         })
         return {
